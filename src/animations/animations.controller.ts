@@ -1,4 +1,13 @@
-import { Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 
 @Controller('animations')
 export class AnimationsController {
@@ -7,14 +16,19 @@ export class AnimationsController {
     return 'This will Return All Animations';
   }
 
+  @Get('/search')
+  serach(@Query('year') serachingYear: string) {
+    return `Searching for a Animation made on ${serachingYear}`;
+  }
+
   @Get('/:id')
   getOne(@Param('id') animationId: string) {
     return `This will reeturn one Animation with the id: ${animationId}`;
   }
 
   @Post()
-  create() {
-    return 'This will create a animation';
+  create(@Body() animationData) {
+    return animationData;
   }
 
   @Delete('/:id')
@@ -23,7 +37,10 @@ export class AnimationsController {
   }
 
   @Patch('/:id')
-  patch(@Param('id') animationId: string) {
-    return `This will patch a animation with the id: ${animationId}`;
+  patch(@Param('id') animationId: string, @Body() updateData) {
+    return {
+      updatedAnimation: animationId,
+      ...updateData,
+    };
   }
 }
