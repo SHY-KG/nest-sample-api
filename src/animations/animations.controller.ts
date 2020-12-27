@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { AnimationsService } from './animations.service';
 import { CreateAnimationDto } from './dto/create-animation.dto';
+import { UpdateAnimationDto } from './dto/update-animation.dto';
 import { Animation } from './entities/Animation.entity';
 
 @Controller('animations')
@@ -37,7 +38,10 @@ export class AnimationsController {
   }
 
   @Patch('/:id')
-  patch(@Param('id') animationId: number, @Body() updateData) {
+  patch(
+    @Param('id') animationId: number,
+    @Body() updateData: UpdateAnimationDto,
+  ) {
     return this.animationsService.update(animationId, updateData);
   }
 }

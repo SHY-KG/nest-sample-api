@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAnimationDto } from './dto/create-animation.dto';
+import { UpdateAnimationDto } from './dto/update-animation.dto';
 import { Animation } from './entities/Animation.entity';
 
 @Injectable()
@@ -32,7 +33,7 @@ export class AnimationsService {
     });
   }
 
-  update(id: number, updateData) {
+  update(id: number, updateData: UpdateAnimationDto) {
     const animation = this.getOne(id);
     this.deleteOne(id);
     this.animations.push({

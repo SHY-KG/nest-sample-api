@@ -1,6 +1,7 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateAnimationDto {
+  @IsOptional()
   @IsString({ each: true })
   readonly genres: string[];
   @IsString()
