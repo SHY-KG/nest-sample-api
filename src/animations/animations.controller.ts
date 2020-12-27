@@ -8,39 +8,35 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { AnimationsService } from './animations.service';
+import { Animation } from './entities/Animation.entity';
 
 @Controller('animations')
 export class AnimationsController {
-  @Get()
-  getAll() {
-    return 'This will Return All Animations';
-  }
+  constructor(private readonly animationsService: AnimationsService) {}
 
-  @Get('/search')
-  serach(@Query('year') serachingYear: string) {
-    return `Searching for a Animation made on ${serachingYear}`;
+  @Get()
+  getAll(): Animation[] {
+    return this.animationsService.getAll();
   }
 
   @Get('/:id')
-  getOne(@Param('id') animationId: string) {
-    return `This will reeturn one Animation with the id: ${animationId}`;
+  getOne(@Param('id') animationId: string): Animation {
+    return this.animationsService.getOne(animationId);
   }
 
   @Post()
   create(@Body() animationData) {
-    return animationData;
+    return this.animationsService.create(animationData);
   }
 
   @Delete('/:id')
   remove(@Param('id') animationId: string) {
-    return `This will remove a animation with the id: ${animationId}`;
+    return this.animationsService.deleteOne(animationId);
   }
 
   @Patch('/:id')
   patch(@Param('id') animationId: string, @Body() updateData) {
-    return {
-      updatedAnimation: animationId,
-      ...updateData,
-    };
+    return this.animationsService.update(animationId, updateData);
   }
 }
