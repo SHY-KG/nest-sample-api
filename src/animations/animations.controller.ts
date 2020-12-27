@@ -23,7 +23,6 @@ export class AnimationsController {
 
   @Get('/:id')
   getOne(@Param('id') animationId: number): Animation {
-    console.log(typeof animationId);
     return this.animationsService.getOne(animationId);
   }
 
