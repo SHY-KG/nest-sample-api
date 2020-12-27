@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateAnimationDto } from './dto/create-animation.dto';
 import { Animation } from './entities/Animation.entity';
 
 @Injectable()
@@ -9,31 +10,29 @@ export class AnimationsService {
     return this.animations;
   }
 
-  getOne(id: string): Animation {
-    const animation = this.animations.find(
-      (animation) => animation.id === parseInt(id),
-    );
+  getOne(id: number): Animation {
+    const animation = this.animations.find((animation) => animation.id === id);
     if (!animation) {
       throw new NotFoundException(`Animation ID ${id} was not fount`);
     }
     return animation;
   }
 
-  deleteOne(id: string) {
+  deleteOne(id: number) {
     this.getOne(id);
     this.animations = this.animations.filter(
-      (animation) => animation.id !== parseInt(id),
+      (animation) => animation.id !== id,
     );
   }
 
-  create(animationData) {
+  create(animationData: CreateAnimationDto) {
     this.animations.push({
       id: this.animations.length + 1,
       ...animationData,
     });
   }
 
-  update(id: string, updateData) {
+  update(id: number, updateData) {
     const animation = this.getOne(id);
     this.deleteOne(id);
     this.animations.push({
